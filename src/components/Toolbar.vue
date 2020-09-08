@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="green" dark>
+  <v-app-bar app color="primary" dark>
     <v-app-bar-nav-icon @click.stop="toggleSideMenu"></v-app-bar-nav-icon>
     <v-toolbar-title>My Todo App</v-toolbar-title>
     <v-spacer></v-spacer>
