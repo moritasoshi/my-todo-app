@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary" dark dense>
+  <v-app-bar app color="cyan darken-1" dark dense>
     <v-app-bar-nav-icon @click.stop="toggleSideMenu"></v-app-bar-nav-icon>
     <v-toolbar-items>
       <v-btn icon @click="toHome">

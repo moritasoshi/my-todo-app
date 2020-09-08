@@ -10,7 +10,7 @@
         v-for="(tile, index) in board.tiles"
         :key="index"
       >
-        <v-app-bar dark color="primary">
+        <v-app-bar dark color="cyan lighten-2">
           <v-toolbar-title>{{ tile.name }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn icon @click="addCard">
