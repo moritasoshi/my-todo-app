@@ -8,32 +8,33 @@ export default new Vuex.Store({
     login_user: null,
     drawer: false,
     board: {
-      title: "Board1",
+      board_id: 1,
+      board_name: "Board1",
       tiles: [
         {
-          id: 1,
+          tile_id: 1,
           name: "List1",
-          items: [
+          cards: [
             {
-              title: "Vuexの勉強",
+              name: "Vuexの勉強",
               date: "2020/09/08",
             },
             {
-              title: "REST API",
+              name: "REST API",
               date: "2020/09/09",
             },
           ],
         },
         {
-          id: 2,
+          tile_id: 2,
           name: "List2",
-          items: [
+          cards: [
             {
-              title: "HTMLの勉強",
+              name: "HTMLの勉強",
               date: "2020/09/01",
             },
             {
-              title: "買い物",
+              name: "買い物",
               date: "2020/09/02",
             },
           ],

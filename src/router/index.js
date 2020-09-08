@@ -1,21 +1,28 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Todo from '../views/Todo.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-  const routes = [
+const routes = [
   {
-    path: '/',
-    name: 'Todo',
-    component: Todo
+    path: "/",
+    name: "home",
+    props: true,
+    component: Home,
   },
-]
+  {
+    path: "/board/:slug",
+    name: "board",
+    component: () =>
+      import(/* webpackChunkName: "board" */ "../views/Board.vue"),
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

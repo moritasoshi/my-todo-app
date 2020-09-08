@@ -13,21 +13,21 @@
         <v-app-bar dark color="primary">
           <v-toolbar-title>{{ tile.name }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn icon>
+          <v-btn icon @click="addCard">
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </v-app-bar>
         <v-container>
-          <draggable group="all-tasks" :list="tile.items">
-            <v-col v-for="(item, i) in tile.items" :key="i" cols="12">
+          <draggable group="all-tasks" :list="tile.cards">
+            <v-col v-for="(card, i) in tile.cards" :key="i" cols="12">
               <v-card>
                 <div class="d-flex flex-no-wrap justify-space-between">
                   <div>
                     <v-card-title
                       class="headline"
-                      v-text="item.title"
+                      v-text="card.name"
                     ></v-card-title>
-                    <v-card-subtitle v-text="item.date"></v-card-subtitle>
+                    <v-card-subtitle v-text="card.date"></v-card-subtitle>
                   </div>
                   <div>
                     <v-btn icon>
