@@ -27,6 +27,7 @@ export default {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setLoginUser(user);
+        this.fetchBoards();
       } else {
         this.deleteLoginUser();
         this.$router.push({ name: "home" }, () => {});
@@ -38,7 +39,7 @@ export default {
   }),
   methods: {
     ...mapActions([
-      "toggleSideMenu",
+      "fetchBoards",
       "setLoginUser",
       "logout",
       "deleteLoginUser",
