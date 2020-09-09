@@ -51,7 +51,7 @@ export default new Vuex.Store({
       state.login_user = null;
     },
     addBoard(state, { id, board }) {
-      board.id = id;
+      board.board_id = id;
       state.boards.push(board);
     },
   },
