@@ -14,6 +14,7 @@ const routes = [
   {
     path: "/board/:slug",
     name: "board",
+    props: true,
     component: () =>
       import(/* webpackChunkName: "board" */ "../views/Board.vue"),
   },

@@ -8,40 +8,6 @@ export default new Vuex.Store({
   state: {
     login_user: null,
     boards: [],
-    board: {
-      board_id: 1,
-      board_name: "Board1",
-      // tiles: [
-      //   {
-      //     tile_id: 1,
-      //     name: "List1",
-      //     cards: [
-      //       {
-      //         name: "Vuexの勉強",
-      //         date: "2020/09/08",
-      //       },
-      //       {
-      //         name: "REST API",
-      //         date: "2020/09/09",
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     tile_id: 2,
-      //     name: "List2",
-      //     cards: [
-      //       {
-      //         name: "HTMLの勉強",
-      //         date: "2020/09/01",
-      //       },
-      //       {
-      //         name: "買い物",
-      //         date: "2020/09/02",
-      //       },
-      //     ],
-      //   },
-      // ],
-    },
   },
   mutations: {
     setLoginUser(state, user) {

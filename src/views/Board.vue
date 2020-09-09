@@ -10,7 +10,7 @@
         v-for="(tile, index) in board.tiles"
         :key="index"
       >
-        <v-app-bar dark color="cyan lighten-2">
+        <v-app-bar dark color="cyan" dense>
           <v-toolbar-title>{{ tile.name }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn icon @click="addCard">
@@ -20,14 +20,10 @@
         <v-container>
           <draggable group="all-tasks" :list="tile.cards">
             <v-col v-for="(card, i) in tile.cards" :key="i" cols="12">
-              <v-card>
+              <v-card width="250" height="70" hover link>
                 <div class="d-flex flex-no-wrap justify-space-between">
                   <div>
-                    <v-card-title
-                      class="headline"
-                      v-text="card.name"
-                    ></v-card-title>
-                    <v-card-subtitle v-text="card.date"></v-card-subtitle>
+                    <v-card-text v-text="card.name"></v-card-text>
                   </div>
                   <div>
                     <v-btn icon>
@@ -55,12 +51,22 @@ export default {
     Draggable,
   },
   data() {
-    return {
-      board: null,
-    };
+    return {};
   },
-  created() {
-    this.board = this.$store.state.board;
+  props: {
+    slug: {
+      type: String,
+      required: true,
+    },
+  },
+  computed: {
+    board() {
+      return this.$store.state.boards.find(
+        (board) => board.board_name === this.slug
+      );
+    },
   },
 };
 </script>
+
+<style scoped></style>
