@@ -7,7 +7,7 @@
         params: { slug: board.board_name },
       }"
     >
-    <h2>{{ board.board_name }}</h2>
+      <h2>{{ board.board_name }}</h2>
     </router-link>
   </v-container>
 </template>

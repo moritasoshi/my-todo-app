@@ -1,6 +1,5 @@
 <template>
   <v-app-bar app color="cyan darken-1" dark dense>
-    <v-app-bar-nav-icon @click.stop="toggleSideMenu"></v-app-bar-nav-icon>
     <v-toolbar-items>
       <v-btn icon @click="toHome">
         <v-icon>mdi-home</v-icon>
@@ -15,10 +14,18 @@
     <v-toolbar-items v-if="$store.state.login_user">
       <v-btn text @click="logout">ログアウト</v-btn>
     </v-toolbar-items>
+    <v-toolbar-items v-else>
+      <v-btn text @click="login">ログイン</v-btn>
+    </v-toolbar-items>
+
+    <v-list-item-avatar>
+      <img v-if="photoURL" :src="photoURL" />
+    </v-list-item-avatar>
   </v-app-bar>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
   methods: {
     toHome() {
@@ -26,6 +33,10 @@ export default {
         this.$router.push({ name: "home" }); // -> /
       }
     },
+    ...mapActions(["login", "logout"]),
+  },
+  computed: {
+    ...mapGetters(["photoURL"]),
   },
 };
 </script>

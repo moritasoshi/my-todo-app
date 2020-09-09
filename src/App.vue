@@ -15,15 +15,34 @@
 
 <script>
 import Toolbar from "./components/Toolbar";
+import firebase from "firebase";
+import { mapActions } from "vuex";
 
 export default {
   name: "App",
   components: {
     Toolbar,
   },
-
+  created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setLoginUser(user);
+      } else {
+        this.deleteLoginUser();
+        this.$router.push({ name: "home" }, () => {});
+      }
+    });
+  },
   data: () => ({
     //
   }),
+  methods: {
+    ...mapActions([
+      "toggleSideMenu",
+      "setLoginUser",
+      "logout",
+      "deleteLoginUser",
+    ]),
+  },
 };
 </script>
