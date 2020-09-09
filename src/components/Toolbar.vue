@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="cyan darken-1" dark dense>
+  <v-app-bar app color="blue darken-3" dark dense>
     <v-toolbar-items>
       <v-btn icon @click="toHome">
         <v-icon>mdi-home</v-icon>
@@ -12,10 +12,12 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items v-if="$store.state.login_user">
-      <v-btn text @click="logout">ログアウト</v-btn>
+      <v-btn text @click="logout">
+        Logout
+      </v-btn>
     </v-toolbar-items>
     <v-toolbar-items v-else>
-      <v-btn text @click="login">ログイン</v-btn>
+      <v-btn text @click="login">Sign in</v-btn>
     </v-toolbar-items>
 
     <v-list-item-avatar>
