@@ -2,9 +2,10 @@
   <v-app>
     <h2>{{ board.board_name }}</h2>
 
+    <!-- 既存ボード -->
     <v-container class="d-flex">
       <v-card
-        max-width="260"
+        width="230"
         class="mx-1"
         v-for="(tile, index) in board.tiles"
         :key="index"
@@ -12,9 +13,6 @@
         <v-app-bar dark color="cyan" dense>
           <v-toolbar-title>{{ tile.name }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <!-- <v-btn icon @click="addCard">
-            <v-icon>mdi-plus</v-icon>
-          </v-btn> -->
         </v-app-bar>
         <v-container>
           <draggable group="all-tasks" :list="tile.cards">
@@ -34,33 +32,53 @@
               </v-card-actions>
             </v-card>
           </draggable>
-          <v-btn text color="grey" @click="addCard">
-            <v-icon>mdi-plus</v-icon>
-            カードを追加
-          </v-btn>
+
+          <!-- カード追加 -->
+          <!-- <v-text-field
+            v-model="tile.cards.name"
+            label="+ カードを追加"
+            outlined
+            required
+            color="green"
+            @keydown.enter="addCard(tile.name)"
+          ></v-text-field> -->
+          <v-btn @click="addCard(tile.name)">Add</v-btn>
         </v-container>
       </v-card>
-      <v-card width="260" height="50" outlined>
-        <v-app-bar dark color="white" dense flat>
-          <v-btn text @click="addTile" color="cyan">
-            <v-icon>mdi-plus</v-icon>リストを追加
-          </v-btn>
-          <v-spacer></v-spacer>
-        </v-app-bar>
-      </v-card>
+
+      <!-- ボード追加 -->
+      <v-text-field
+        @keydown.enter="addTile"
+        v-model="newTile.name"
+        label="+ リストを追加"
+        outlined
+        required
+        color="green"
+      ></v-text-field>
     </v-container>
+    {{ this.board }}
   </v-app>
 </template>
 
 <script>
 import Draggable from "vuedraggable";
+import { mapActions } from "vuex";
 
 export default {
   components: {
     Draggable,
   },
   data() {
-    return {};
+    return {
+      board: {},
+      newTile: {
+        name: null,
+        cards: [],
+      },
+      newCard: {
+        name: "new card",
+      },
+    };
   },
   props: {
     slug: {
@@ -68,16 +86,27 @@ export default {
       required: true,
     },
   },
-  computed: {
-    board() {
-      return this.$store.state.boards.find(
-        (board) => board.board_name === this.slug
-      );
-    },
+  created() {
+    this.board = this.$store.state.boards.find(
+      (board) => board.board_name === this.slug
+    );
   },
   methods: {
-    addCard() {},
-    addTile() {},
+    addCard(tileName) {
+      this.board.tiles
+        .find((tile) => tile.name === tileName)
+        .cards.push(this.newCard);
+      this.updateBoard(this.board);
+    },
+    addTile() {
+      this.board.tiles.push(this.newTile);
+      this.updateBoard(this.board);
+      this.newTile = {
+        name: null,
+        cards: [],
+      };
+    },
+    ...mapActions(["updateBoard"]),
   },
 };
 </script>
@@ -85,5 +114,15 @@ export default {
 <style scoped>
 .my-card {
   margin: 10px 0;
+}
+.new-tile-title {
+  font-size: 14px;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

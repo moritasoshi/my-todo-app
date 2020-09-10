@@ -57,7 +57,10 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      newBoard: {},
+      newBoard: {
+        board_name: null,
+        tiles: [],
+      },
     };
   },
   computed: {
@@ -68,8 +71,11 @@ export default {
   methods: {
     createNewBoard() {
       this.addBoard(this.newBoard);
-      // this.$router.push({ name: "home" });
-      this.newBoard = {};
+      // 初期化
+      this.newBoard = {
+        board_name: null,
+        tiles: [],
+      };
     },
     ...mapActions(["addBoard"]),
   },

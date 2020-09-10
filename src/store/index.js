@@ -20,6 +20,9 @@ export default new Vuex.Store({
       board.board_id = id;
       state.boards.push(board);
     },
+    upadateBoard(state, board ) {
+      state.boards.set(board);
+    },
   },
   actions: {
     // Firebase Authentication
@@ -35,9 +38,6 @@ export default new Vuex.Store({
     },
     deleteLoginUser({ commit }) {
       commit("deleteLoginUser");
-    },
-    toggleSideMenu({ commit }) {
-      commit("toggleSideMenu");
     },
     // Boards
     fetchBoards({ getters, commit }) {
@@ -69,6 +69,22 @@ export default new Vuex.Store({
           // doc.data() is never undefined for query doc snapshots
           console.log(doc.id, " => ", doc.data());
           commit("addBoard", { id: doc.id, board });
+        })
+        .catch(function(error) {
+          console.log("Error getting documents: ", error);
+        });
+    },
+    updateBoard({ getters, commit }, board) {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(getters.uid)
+        .collection("boards")
+        .doc(board.board_id)
+        .set(board)
+        .then(function() {
+          console.log("Document successfully written!");
+          commit("updateBoard",  board );
         })
         .catch(function(error) {
           console.log("Error getting documents: ", error);
