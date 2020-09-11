@@ -4,7 +4,7 @@
       <h2>{{ board.board_name }}</h2>
 
       <template>
-        <v-btn color="green" class="mx-5" icon @click="showBoard()">
+        <v-btn color="green lighten-2" class="mx-5" icon @click="showBoard()">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
       </template>
@@ -19,7 +19,7 @@
         v-for="(tile, index) in board.tiles"
         :key="index"
       >
-        <v-app-bar dark color="cyan" dense>
+        <v-app-bar dark color="grey" dense>
           <v-toolbar-title>{{ tile.name }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <template>
@@ -51,7 +51,7 @@
               <v-card-actions>
                 <template>
                   <v-btn
-                    color="green"
+                    color="green lighten-2"
                     class="ma-2"
                     icon
                     @click="
@@ -262,15 +262,5 @@ export default {
 <style scoped>
 .my-card {
   margin: 10px 0;
-}
-.new-tile-title {
-  font-size: 14px;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
 }
 </style>
