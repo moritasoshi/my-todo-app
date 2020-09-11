@@ -22,8 +22,8 @@ export default {
   methods: {
     submit() {
       this.$store.dispatch("addCard", this.card);
-      this.$router.push({ name: "todo" });
-      this.address = [];
+      this.$router.push({ name: "home" });
+      this.card = [];
     },
   },
 };

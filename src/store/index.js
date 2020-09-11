@@ -20,8 +20,11 @@ export default new Vuex.Store({
       board.board_id = id;
       state.boards.push(board);
     },
-    upadateBoard(state, board ) {
-      state.boards.set(board);
+    updateBoard(state, board) {
+      const index = state.boards.findIndex(
+        (elem) => elem.board_id === board.board_id
+      );
+      state.boards[index] = board;
     },
   },
   actions: {
@@ -49,8 +52,6 @@ export default new Vuex.Store({
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
             commit("addBoard", { id: doc.id, board: doc.data() });
           });
         })
@@ -66,9 +67,7 @@ export default new Vuex.Store({
         .collection("boards")
         .add(board)
         .then(function(doc) {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
-          commit("addBoard", { id: doc.id, board });
+          commit("addBoard", { id: doc.id, board: board });
         })
         .catch(function(error) {
           console.log("Error getting documents: ", error);
@@ -83,8 +82,7 @@ export default new Vuex.Store({
         .doc(board.board_id)
         .set(board)
         .then(function() {
-          console.log("Document successfully written!");
-          commit("updateBoard",  board );
+          commit("updateBoard", board);
         })
         .catch(function(error) {
           console.log("Error getting documents: ", error);

@@ -28,6 +28,7 @@
             <v-form>
               <v-text-field
                 outlined
+                required
                 v-model="newBoard.board_name"
                 label="ボードタイトルを追加"
                 color="grey"
