@@ -148,7 +148,6 @@ export default {
         tileName: "",
       },
 
-      board: {},
       newTile: {
         name: null,
         cards: [],
@@ -164,15 +163,17 @@ export default {
       required: true,
     },
   },
-  created() {
-    this.board = this.$store.state.boards.find(
-      (board) => board.board_name === this.slug
-    );
+  
+  computed: {
+    board() {
+      return this.$store.state.boards.find(
+        (board) => board.board_name === this.slug
+      );
+    },
   },
   watch: {
     "board.tiles": {
       handler: function() {
-        console.log("watch" + this.board)
         this.$store.dispatch("updateBoard", this.board);
       },
       deep: true,
