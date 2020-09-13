@@ -65,7 +65,15 @@
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
                 </template>
-                <v-btn icon>
+                <v-btn
+                  icon
+                  @click="
+                    deleteCard({
+                      tileId: tile.id,
+                      cardId: card.id,
+                    })
+                  "
+                >
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -163,7 +171,7 @@ export default {
       required: true,
     },
   },
-  
+
   computed: {
     board() {
       return this.$store.state.boards.find(
@@ -174,6 +182,7 @@ export default {
   watch: {
     "board.tiles": {
       handler: function() {
+        console.log("watched");
         this.$store.dispatch("updateBoard", this.board);
       },
       deep: true,
@@ -247,6 +256,15 @@ export default {
         name: null,
         cards: [],
       };
+    },
+    deleteCard({ tileId, cardId }) {
+      const tileIndex = this.board.tiles.findIndex(
+        (tile) => tile.id === tileId
+      );
+      const cardIndex = this.board.tiles[tileIndex].cards.findIndex(
+        (card) => card.id === cardId
+      );
+      this.board.tiles[tileIndex].cards.splice(cardIndex, 1);
     },
     uuid() {
       return "xxxxxxxxxxxxxxxxxx".replace(/[xy]/g, (c) => {
