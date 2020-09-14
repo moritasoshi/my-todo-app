@@ -4,7 +4,7 @@
       <h2>{{ board.board_name }}</h2>
 
       <template>
-        <v-btn color="green lighten-2" class="mx-5" icon @click="showBoard()">
+        <v-btn color="green lighten-2" class="mx-5" icon @click="showBoard">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
       </template>
@@ -274,6 +274,7 @@ export default {
       newCard: {
         name: "new card",
       },
+      board: {},
     };
   },
   props: {
@@ -283,12 +284,10 @@ export default {
     },
   },
 
-  computed: {
-    board() {
-      return this.$store.state.boards.find(
-        (board) => board.board_name === this.slug
-      );
-    },
+  created() {
+    this.board = this.$store.state.boards.find(
+      (board) => board.board_name === this.slug
+    );
   },
   watch: {
     "board.tiles": {
