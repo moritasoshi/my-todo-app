@@ -26,6 +26,12 @@ export default new Vuex.Store({
       );
       state.boards[index] = board;
     },
+    deleteBoard(state, board) {
+      const index = state.boards.findIndex(
+        (elem) => elem.board_id === board.board_id
+      );
+      state.boards.splice(index, 1);
+    },
   },
   actions: {
     // Firebase Authentication
@@ -44,6 +50,8 @@ export default new Vuex.Store({
     },
     // Boards
     fetchBoards({ getters, commit }) {
+      console.log("Now fetchBoards");
+
       firebase
         .firestore()
         .collection("users")
@@ -86,6 +94,22 @@ export default new Vuex.Store({
         })
         .catch(function(error) {
           console.log("Error getting documents: ", error);
+        });
+    },
+    deleteBoard({ commit, getters }, board) {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(getters.uid)
+        .collection("boards")
+        .doc(board.board_id)
+        .delete()
+        .then(function() {
+          console.log("Document successfully deleted!");
+          commit("deleteBoard", board);
+        })
+        .catch(function(error) {
+          console.error("Error removing document: ", error);
         });
     },
   },

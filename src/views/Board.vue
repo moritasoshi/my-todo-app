@@ -8,6 +8,11 @@
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
       </template>
+      <template>
+        <v-btn icon @click="deleteThisBoard">
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+      </template>
       <v-spacer></v-spacer>
     </v-container>
 
@@ -269,11 +274,24 @@ export default {
         cards: [],
       };
     },
+    deleteThisBoard() {
+      alert(
+        this.board.board_name +
+          " : 現在のボードを削除してもよろしいですか？\n※このリスト内の全てのリスト・カードも削除されます"
+      );
+      this.$store.dispatch("deleteBoard", this.board);
+      this.$router.push({
+        name: "home",
+      });
+    },
     deleteTile({ tileId }) {
       const tileIndex = this.board.tiles.findIndex(
         (tile) => tile.id === tileId
       );
-      alert(this.board.tiles[tileIndex].name + " : このリストを削除してもよろしいですか？\n※このリスト内の全てのカードも削除されます");
+      alert(
+        this.board.tiles[tileIndex].name +
+          " : このリストを削除してもよろしいですか？\n※このリスト内の全てのカードも削除されます"
+      );
       this.board.tiles.splice(tileIndex, 1);
     },
     deleteCard({ tileId, cardId }) {
@@ -292,7 +310,7 @@ export default {
         return v.toString(16);
       });
     },
-    ...mapActions(["updateBoard"]),
+    ...mapActions(["updateBoard", "deleteBoard"]),
   },
 };
 </script>
