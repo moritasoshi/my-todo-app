@@ -37,6 +37,18 @@
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </template>
+          <template>
+            <v-btn
+              icon
+              @click="
+                deleteTile({
+                  tileId: tile.id,
+                })
+              "
+            >
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </template>
         </v-app-bar>
         <v-container>
           <draggable group="all-tasks" :list="tile.cards">
@@ -256,6 +268,13 @@ export default {
         name: null,
         cards: [],
       };
+    },
+    deleteTile({ tileId }) {
+      const tileIndex = this.board.tiles.findIndex(
+        (tile) => tile.id === tileId
+      );
+      alert(this.board.tiles[tileIndex].name + " : このリストを削除してもよろしいですか？\n※このリスト内の全てのカードも削除されます");
+      this.board.tiles.splice(tileIndex, 1);
     },
     deleteCard({ tileId, cardId }) {
       const tileIndex = this.board.tiles.findIndex(
