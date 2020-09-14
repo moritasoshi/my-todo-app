@@ -99,63 +99,157 @@
           <v-btn @click="addCard(tile.name)">Add</v-btn>
         </v-container>
       </v-card>
-
-      <!-- ボード追加 -->
-      <v-text-field
-        @keydown.enter="addTile"
-        v-model="newTile.name"
-        label="+ リストを追加"
-        outlined
-        required
-        color="green"
-        class="shrink"
-      ></v-text-field>
+      <!-- リスト追加 -->
+      <ValidationObserver v-slot="{ invalid }">
+        <v-form>
+          <ValidationProvider
+            rules="required"
+            v-slot="{ errors, valid }"
+            name="リスト名"
+          >
+            <v-text-field
+              v-model="newTile.name"
+              label="+ リストを追加"
+              outlined
+              color="green"
+              class="shrink"
+              :error-messages="errors"
+              :success="valid"
+            ></v-text-field>
+          </ValidationProvider>
+          <v-btn
+            color="green lighten-2"
+            dark
+            class="ml-2"
+            :disabled="invalid"
+            @click="addTile"
+            >リストを追加</v-btn
+          >
+        </v-form>
+      </ValidationObserver>
     </v-container>
 
-    <!-- トランジション関連 -->
+    <!-- 
+    <-- トランジション関連 --
+    <ValidationObserver v-slot="{ invalid }">
+      <ValidationProvider
+        rules="required"
+        v-slot="{ errors, valid }"
+        name="リスト名"
+      >
+      </ValidationProvider>
+    </ValidationObserver>
+-->
     <!-- ボード名変更 -->
-    <v-container v-show="boardShow">
-      <v-text-field
-        label="ボード名を入力"
-        color="grey"
-        v-model="targetBoardName"
-      ></v-text-field>
-      <v-btn color="green lighten-2" dark class="ml-2" @click="editBoard"
-        >ボード名を変更</v-btn
-      >
-    </v-container>
+    <ValidationObserver v-slot="{ invalid }">
+      <v-form v-show="boardShow">
+        <ValidationProvider
+          rules="required"
+          v-slot="{ errors, valid }"
+          name="ボード名"
+        >
+          <v-text-field
+            label="ボード名を入力"
+            color="grey"
+            v-model="targetBoardName"
+            :error-messages="errors"
+            :success="valid"
+          ></v-text-field>
+          <v-btn
+            color="green lighten-2"
+            dark
+            class="ml-2"
+            :disabled="invalid"
+            @click="editBoard"
+            >ボード名を変更</v-btn
+          >
+        </ValidationProvider>
+      </v-form>
+    </ValidationObserver>
+
     <!-- リスト名変更 -->
-    <v-container v-show="tileShow">
-      <v-text-field
-        label="リスト名を入力"
-        color="grey"
-        v-model="targetTile.name"
-      ></v-text-field>
-      <v-btn color="green lighten-2" dark class="ml-2" @click="editTile"
-        >リスト名を変更</v-btn
-      >
-    </v-container>
+    <ValidationObserver v-slot="{ invalid }">
+      <v-form v-show="tileShow">
+        <ValidationProvider
+          rules="required"
+          v-slot="{ errors, valid }"
+          name="リスト名"
+        >
+          <v-text-field
+            label="リスト名を入力"
+            color="grey"
+            v-model="targetTile.name"
+            :error-messages="errors"
+            :success="valid"
+          ></v-text-field>
+          <v-btn
+            color="green lighten-2"
+            dark
+            :disabled="invalid"
+            class="ml-2"
+            @click="editTile"
+            >リスト名を変更</v-btn
+          >
+        </ValidationProvider>
+      </v-form>
+    </ValidationObserver>
+
     <!-- カード名変更 -->
-    <v-container v-show="cardShow">
-      <v-text-field
-        label="カード名を入力"
-        color="grey"
-        v-model="targetCard.name"
-      ></v-text-field>
-      <v-btn color="green lighten-2" dark class="ml-2" @click="editCard"
-        >カード名を変更</v-btn
-      >
-    </v-container>
+    <ValidationObserver v-slot="{ invalid }">
+      <v-form v-show="cardShow">
+        <ValidationProvider
+          rules="required"
+          v-slot="{ errors, valid }"
+          name="カード名"
+        >
+          <v-text-field
+            label="カード名を入力"
+            color="grey"
+            v-model="targetCard.name"
+            :error-messages="errors"
+            :success="valid"
+          ></v-text-field>
+          <v-btn
+            color="green lighten-2"
+            dark
+            :disabled="invalid"
+            class="ml-2"
+            @click="editCard"
+            >カード名を変更</v-btn
+          >
+        </ValidationProvider>
+      </v-form>
+    </ValidationObserver>
   </v-app>
 </template>
 
 <script>
 import Draggable from "vuedraggable";
 import { mapActions } from "vuex";
+// import { required } from "vee-validate/dist/rules";
+import ja from "vee-validate/dist/locale/ja.json";
+import {
+  extend,
+  localize,
+  ValidationProvider,
+  ValidationObserver,
+} from "vee-validate";
+
+// バリデーションルール
+extend("required", (value) => {
+  if (value) {
+    return true;
+  }
+  return false;
+});
+// Localization
+localize("ja", ja);
 
 export default {
   components: {
     Draggable,
+    ValidationProvider,
+    ValidationObserver,
   },
   data() {
     return {
@@ -174,7 +268,7 @@ export default {
       },
 
       newTile: {
-        name: null,
+        name: "",
         cards: [],
       },
       newCard: {
