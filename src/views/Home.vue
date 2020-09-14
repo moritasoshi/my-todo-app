@@ -23,39 +23,62 @@
     <h2>Create a new board</h2>
     <v-container>
       <v-flex xs4 mt-5>
-        <v-card height="125">
+        <v-card>
           <v-card-text>
-            <v-form>
-              <v-text-field
-                outlined
-                required
-                v-model="newBoard.board_name"
-                label="ボードタイトルを追加"
-                color="grey"
-              ></v-text-field>
-            </v-form>
+            <ValidationObserver v-slot="{ invalid }">
+              <v-form>
+                <ValidationProvider
+                  rules="required"
+                  v-slot="{ errors, valid }"
+                  name="ボードタイトル"
+                >
+                  <v-text-field
+                    outlined
+                    v-model="newBoard.board_name"
+                    label="ボードタイトル"
+                    color="grey"
+                    :error-messages="errors"
+                    :success="valid"
+                  ></v-text-field>
+                </ValidationProvider>
+                <v-btn
+                  :disabled="invalid"
+                  color="green lighten-2"
+                  dark
+                  class="ml-2"
+                  @click="createNewBoard"
+                  >新しいボードを作成</v-btn
+                >
+              </v-form>
+            </ValidationObserver>
           </v-card-text>
         </v-card>
       </v-flex>
-    </v-container>
-    <v-container>
-      <v-btn
-        :disabled="
-          this.newBoard.board_name == null || this.newBoard.board_name == ''
-        "
-        color="green lighten-2"
-        dark
-        class="ml-2"
-        @click="createNewBoard"
-        >新しいボードを作成</v-btn
-      >
     </v-container>
   </v-container>
 </template>
 
 <script>
 import { mapActions } from "vuex";
+import { required } from "vee-validate/dist/rules";
+import ja from "vee-validate/dist/locale/ja.json";
+import {
+  extend,
+  localize,
+  ValidationProvider,
+  ValidationObserver,
+} from "vee-validate";
+
+// バリデーションルール
+extend("required", required);
+// Localization
+localize("ja", ja);
+
 export default {
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+  },
   data() {
     return {
       newBoard: {
